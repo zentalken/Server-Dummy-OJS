@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: ojs_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ojs
+      MYSQL_USER: ojsuser
+      MYSQL_PASSWORD: ojspass
+    volumes:
+      - db_data:/var/lib/mysql
+
+  ojs:
+    image: pkpofficial/ojs
+    container_name: ojs_app
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
